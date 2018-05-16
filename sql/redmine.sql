@@ -1,0 +1,3 @@
+CREATE USER redmine PASSWORD 'redmine';
+ALTER ROLE redmine SUPERUSER;
+CREATE DATABASE redmine OWNER redmine;

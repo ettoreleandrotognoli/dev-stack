@@ -13,9 +13,19 @@ services:
       - delivery
       - ccquality
       - sqladmin
+      - issues-tracker
     deploy:
       placement:
           constraints: [node.role == manager]
+  issues-tracker:
+    image: redmine
+    restart: always
+    depends_on:
+      - sql
+    environment:
+      - REDMINE_DB_POSTGRES=sql
+      - REDMINE_DB_USERNAME=redmine
+      - REDMINE_DB_PASSWORD=redmine
   git:
     image: gitlab/gitlab-ce
     environment:
@@ -43,8 +53,11 @@ services:
     image: jenkins/jenkins
     ports:
       - "50000:50000"
+    volumes:
+      - ./data/jenkins:/var/lib/jenkins/workspace
   ccquality:
     image: sonarqube:alpine
+    restart: always
     environment:
       - SONARQUBE_JDBC_USERNAME=sonar
       - SONARQUBE_JDBC_PASSWORD=sonar
@@ -78,3 +91,4 @@ volumes:
   nginx:
   ssl:
   sql:
+  issues-tracker:
