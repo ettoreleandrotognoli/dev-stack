@@ -34,7 +34,7 @@ Default auth
 Username: admin
 Password: admin
 
-## Complementar
+## Complementary
 
 
 #### PostgreSQL
