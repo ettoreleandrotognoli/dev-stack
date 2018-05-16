@@ -1,9 +1,9 @@
-#Docker-Compose to up a complete dev-stack
+# Docker-Compose to up a complete dev-stack
 
 
-##Main stack
+## Main stack
 
-####GitLab
+#### GitLab
 
 Url to access: git.* gitlab.*
 
@@ -12,7 +12,7 @@ Username: root
 But you must set the first password at the web ui
 
 
-####SonarQube
+#### SonarQube
 
 Url to access: ccquality.* sonarqube.*
 
@@ -20,13 +20,13 @@ Default auth
 Username: admin
 Password: admin
 
-####Jenkins
+#### Jenkins
     
 Url to access: delivery.* jenkins.*
 
 No default auth, use the command `make delivery-password` to cat initial token
 
-####Redmine
+#### Redmine
 
 Url to access: issues-tracker.* redmine.*
 
@@ -34,10 +34,10 @@ Default auth
 Username: admin
 Password: admin
 
-##Complementar
+## Complementar
 
 
-####PostgreSQL
+#### PostgreSQL
 
 Access at the host on default port and you can use the PgAdmin, url to access sql.* sqladmin.* pgadmin.*
 
@@ -45,18 +45,18 @@ Default auth:
 Username: postgres
 Password: postgres
 
-####Redis
+#### Redis
 
 No external access, only useb by the GitLab
 
-####Nginx
+#### Nginx
 
 Used to redirect the http requests to correct server
 
 
-##Tutorial
+## Tutorial
 
-####Prepare the environment
+#### Prepare the environment
 
 ```shell
 CN=*.<YOUR_DOMAIN> make ssl
@@ -69,13 +69,13 @@ CN=*.dev-stack.org make ssl
 
 
 
-####Run all
+#### Run all
 
 ```shell
 docker-composer up -d
 ```
 
-##Remarks
+## Remarks
 
 If you don't have a DNS to resolve the name to your server, add this config at /etc/hosts in your local machine not at the server
 
