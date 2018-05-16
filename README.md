@@ -59,12 +59,12 @@ Used to redirect the http requests to correct server
 #### Prepare the environment
 
 ```shell
-CN=*.<YOUR_DOMAIN> make ssl
+SSL_CN=*.<YOUR_DOMAIN> make ssl
 ```
 
 Example:
 ```shell
-CN=*.dev-stack.org make ssl
+SSL_CN=*.dev-stack.org make ssl
 ```
 
 
