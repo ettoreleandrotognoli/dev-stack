@@ -1,0 +1,2 @@
+CREATE USER sonar PASSWORD 'sonar';
+CREATE DATABASE sonar OWNER sonar;

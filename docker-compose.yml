@@ -1,0 +1,80 @@
+version: '3'
+services:
+  proxy:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./ssl:/etc/ssl/certs/
+    depends_on:
+      - git
+      - delivery
+      - ccquality
+      - sqladmin
+    deploy:
+      placement:
+          constraints: [node.role == manager]
+  git:
+    image: gitlab/gitlab-ce
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        postgresql['enable'] = true
+        gitlab_rails['db_username'] = "gitlab"
+        gitlab_rails['db_password'] = "gitlab"
+        gitlab_rails['db_host'] = "sql"
+        gitlab_rails['db_port'] = "5432"
+        gitlab_rails['db_database'] = "gitlab"
+        gitlab_rails['db_adapter'] = 'postgresql'
+        gitlab_rails['db_encoding'] = 'utf8'
+        redis['enable'] = true
+        gitlab_rails['redis_host'] = 'redis'
+        gitlab_rails['redis_port'] = '6379'
+        gitlab_rails['gitlab_shell_ssh_port'] = 30022
+    volumes:
+      - ./data/gitlab/config:/etc/gitlab
+      - ./data/gitlab/logs:/var/log/gitlab
+      - ./data/gitlab/data:/var/opt/gitlab
+    depends_on:
+      - sql
+      - redis
+  delivery:
+    image: jenkins/jenkins
+    ports:
+      - "50000:50000"
+  ccquality:
+    image: sonarqube:alpine
+    environment:
+      - SONARQUBE_JDBC_USERNAME=sonar
+      - SONARQUBE_JDBC_PASSWORD=sonar
+      - SONARQUBE_JDBC_URL=jdbc:postgresql://sql:5432/sonar
+    depends_on:
+      - sql
+  sqladmin:
+    image: thajeztah/pgadmin4
+    environment:
+      - PG_ADMIN_PORT=8000
+  sql:
+    image: postgres:alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+      - ./data/postgres:/var/lib/postgresql/data/pgdata
+    deploy:
+      placement:
+          constraints: [node.role == manager]
+  redis:
+    image: redis:alpine
+    restart: always
+volumes:
+  nginx:
+  ssl:
+  sql:

@@ -1,0 +1,3 @@
+CREATE USER gitlab PASSWORD 'gitlab';
+ALTER ROLE gitlab SUPERUSER;
+CREATE DATABASE gitlab OWNER gitlab;
