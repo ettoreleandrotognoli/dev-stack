@@ -3,6 +3,15 @@
 
 ## Main stack
 
+#### Portainer
+
+Url to access: docker-manager.* portainer.*
+
+Default auth
+Username: admin
+But you must set the first password at the web ui
+
+
 #### GitLab
 
 Url to access: git.* gitlab.*
