@@ -1,5 +1,11 @@
 version: '3'
 services:
+  docker-manager:
+    image: portainer/portainer
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /data/portainer:/data
   proxy:
     image: nginx:alpine
     ports:
@@ -88,6 +94,7 @@ services:
     image: redis:alpine
     restart: always
 volumes:
+  portainer:
   nginx:
   ssl:
   sql:
