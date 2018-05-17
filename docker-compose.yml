@@ -1,6 +1,6 @@
 version: '3'
 services:
-  docker-manager:
+  container-manager:
     image: portainer/portainer
     command: -H unix:///var/run/docker.sock
     volumes:
