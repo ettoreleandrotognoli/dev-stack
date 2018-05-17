@@ -53,6 +53,14 @@ No external access, only useb by the GitLab
 
 Used to redirect the http requests to correct server
 
+#### Bind
+
+A DNS Server, access the admin at https://server:10000
+
+Default auth:
+Username: root
+Password: root
+
 
 ## Tutorial
 

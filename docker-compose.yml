@@ -2,6 +2,7 @@ version: '3'
 services:
   proxy:
     image: nginx:alpine
+    restart: always
     ports:
       - "80:80"
       - "443:443"
@@ -14,9 +15,22 @@ services:
       - ccquality
       - sqladmin
       - issues-tracker
+      - dns
     deploy:
       placement:
-          constraints: [node.role == manager]
+        constraints: [node.role == manager]
+  dns:
+    image: sameersbn/bind
+    ports:
+      - "53:53"
+      - "10000:10000"
+    volumes:
+      - /data/bind:/data
+    environment:
+      - ROOT_PASSWORD=root
+    deploy:
+      placement:
+        constraints: [node.role == manager]
   issues-tracker:
     image: redmine
     restart: always
@@ -92,3 +106,4 @@ volumes:
   ssl:
   sql:
   issues-tracker:
+  dns:
